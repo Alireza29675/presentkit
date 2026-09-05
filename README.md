@@ -1,6 +1,6 @@
 # PresentKit
 
-An interactive introduction to making presentations with a coding agent. Follow a click-through journey from cloning the foundation to describing an idea, then explore scenes, evolving steps, interaction-driven navigation, and links that restore your place.
+A short presentation built on PresentKit. Follow a repository from fork to your own named project, open a coding agent, and build your presentation slide by slide. PresentKit provides the state management, instructions, and foundations underneath.
 
 ## Run locally
 
