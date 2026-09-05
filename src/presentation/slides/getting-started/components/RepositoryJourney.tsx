@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react';
+import { forkStartMs, renameStartMs } from '../steps/timing.ts';
 import type { scenes, Step } from '../steps/steps.ts';
 import * as styles from './repositoryJourney.css.ts';
 
 interface RepositoryJourneyProps {
   readonly scene: (typeof scenes)[Step];
   readonly stepId: Step;
+  readonly animate: boolean;
 }
 
 function RepositoryGlyph() {
@@ -23,9 +26,49 @@ function RepositoryGlyph() {
   );
 }
 
-export function RepositoryJourney({ scene, stepId }: RepositoryJourneyProps) {
+export function RepositoryJourney({
+  scene,
+  stepId,
+  animate,
+}: RepositoryJourneyProps) {
+  const [forkPhase, setForkPhase] = useState<'waiting' | 'forked' | 'named'>(
+    'waiting',
+  );
+  const stagingFork = stepId === 'fork' && animate;
+  const waitingForFork = stagingFork && forkPhase === 'waiting';
+  const repositoryName =
+    stagingFork && forkPhase !== 'named' ? 'PresentKit' : scene.repositoryName;
+
+  useEffect(() => {
+    if (!stagingFork) return;
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const finish = () => setForkPhase('named');
+    const onPreferenceChange = () => {
+      if (preference.matches) finish();
+    };
+    if (preference.matches) {
+      finish();
+      return;
+    }
+    const forkTimer = window.setTimeout(
+      () => setForkPhase((phase) => (phase === 'named' ? phase : 'forked')),
+      forkStartMs,
+    );
+    const renameTimer = window.setTimeout(finish, renameStartMs);
+    preference.addEventListener('change', onPreferenceChange);
+    return () => {
+      window.clearTimeout(forkTimer);
+      window.clearTimeout(renameTimer);
+      preference.removeEventListener('change', onPreferenceChange);
+    };
+  }, [stagingFork]);
+
   return (
-    <div className={styles.journey} data-step={stepId}>
+    <div
+      className={styles.journey}
+      data-step={waitingForFork ? 'boilerplate' : stepId}
+      data-animate={animate}
+    >
       <div
         className={styles.agentFrame}
         data-visible={scene.showAgent}
@@ -59,7 +102,7 @@ export function RepositoryJourney({ scene, stepId }: RepositoryJourneyProps) {
       <svg
         className={styles.connector}
         viewBox="0 0 120 40"
-        data-visible={scene.showSource && scene.showFork}
+        data-visible={scene.showSource && scene.showFork && !waitingForFork}
         aria-hidden="true"
       >
         <path
@@ -71,12 +114,12 @@ export function RepositoryJourney({ scene, stepId }: RepositoryJourneyProps) {
       </svg>
       <div
         className={styles.fork}
-        data-visible={scene.showFork}
-        aria-hidden={!scene.showFork}
+        data-visible={scene.showFork && !waitingForFork}
+        aria-hidden={!scene.showFork || waitingForFork}
       >
         <RepositoryGlyph />
-        <span className={styles.repositoryName} key={scene.repositoryName}>
-          {scene.repositoryName}
+        <span className={styles.repositoryName} key={repositoryName}>
+          {repositoryName}
         </span>
       </div>
     </div>

@@ -1,14 +1,8 @@
-export const steps = [
-  'intro',
-  'boilerplate',
-  'fork',
-  'rename',
-  'agent',
-] as const;
+export const steps = ['intro', 'boilerplate', 'fork', 'agent'] as const;
 export type Step = (typeof steps)[number];
 
 interface Scene {
-  readonly caption: string;
+  readonly caption: readonly string[];
   readonly showDiagram: boolean;
   readonly showSource: boolean;
   readonly showAgent: boolean;
@@ -18,7 +12,7 @@ interface Scene {
 
 export const scenes = {
   intro: {
-    caption: '',
+    caption: [],
     showDiagram: false,
     showSource: false,
     showAgent: false,
@@ -26,7 +20,11 @@ export const scenes = {
     repositoryName: 'PresentKit',
   },
   boilerplate: {
-    caption: '',
+    caption: [
+      'PresentKit is a boilerplate',
+      'agents can use',
+      'to build polished presentations.',
+    ],
     showDiagram: true,
     showSource: true,
     showAgent: false,
@@ -34,34 +32,25 @@ export const scenes = {
     repositoryName: 'PresentKit',
   },
   fork: {
-    caption: 'You fork the PresentKit repo.',
+    caption: [
+      'To do that,',
+      'fork PresentKit,',
+      'and name it after your talk.',
+    ],
     showDiagram: true,
     showSource: true,
     showAgent: false,
     showFork: true,
-    repositoryName: 'PresentKit',
-  },
-  rename: {
-    caption: 'Put another name on your repo.',
-    showDiagram: true,
-    showSource: true,
-    showAgent: false,
-    showFork: true,
-    repositoryName: 'My Next Talk',
+    repositoryName: 'Ideas in Motion',
   },
   agent: {
-    caption:
+    caption: [
       'Then open your agent on that repo and make things slide by slide.',
+    ],
     showDiagram: true,
     showSource: false,
     showAgent: true,
     showFork: true,
-    repositoryName: 'My Next Talk',
+    repositoryName: 'Ideas in Motion',
   },
 } as const satisfies Record<Step, Scene>;
-
-export const boilerplateChunks = [
-  'PresentKit is a boilerplate',
-  'agents can use',
-  'to build polished presentations.',
-] as const;

@@ -25,9 +25,15 @@ export const slide = style({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  animation: `${arrive} ${tokens.motion.normal} ease-out both`,
+  selectors: {
+    '&[data-animate="true"]': {
+      animation: `${arrive} ${tokens.motion.normal} ease-out both`,
+    },
+  },
   '@media': {
-    '(prefers-reduced-motion: reduce)': { animation: 'none' },
+    '(prefers-reduced-motion: reduce)': {
+      selectors: { '&[data-animate="true"]': { animation: 'none' } },
+    },
     '(max-height: 800px) and (min-width: 901px)': {
       paddingTop: '1.5rem',
       paddingBottom: '1.5rem',

@@ -2,10 +2,6 @@ import { keyframes, style } from '@vanilla-extract/css';
 import { tokens } from '../../theme/tokens.css.ts';
 import { introTiming } from './steps/timing.ts';
 
-const appear = keyframes({
-  from: { opacity: 0, transform: 'translateY(6px)' },
-  to: { opacity: 1, transform: 'translateY(0)' },
-});
 export const slide = style({
   position: 'relative',
   minHeight: `max(600px, calc(100dvh - ${tokens.layout.controlsHeight}))`,
@@ -32,11 +28,13 @@ export const title = style({
 const titleArrival = keyframes({
   from: {
     opacity: 0,
-    transform: 'perspective(1000px) translateY(28px) rotateX(14deg) rotateY(-5deg) scale(0.92)',
+    transform:
+      'perspective(1000px) translateY(28px) rotateX(14deg) rotateY(-5deg) scale(0.92)',
   },
   to: {
     opacity: 1,
-    transform: 'perspective(1000px) translateY(0) rotateX(0deg) rotateY(0deg) scale(1)',
+    transform:
+      'perspective(1000px) translateY(0) rotateX(0deg) rotateY(0deg) scale(1)',
   },
 });
 
@@ -66,16 +64,4 @@ export const story = style({
   transition: 'opacity 400ms ease',
   selectors: { [`${slide}[data-expanded="true"] &`]: { opacity: 1 } },
   '@media': { '(prefers-reduced-motion: reduce)': { transition: 'none' } },
-});
-export const caption = style({
-  color: tokens.color.muted,
-  textAlign: 'center',
-  fontSize: 'clamp(1rem, 1.7vw, 1.5rem)',
-  lineHeight: 1.5,
-  margin: '0 auto',
-  padding: '0 1.5rem',
-  maxWidth: '760px',
-  minHeight: '3em',
-  animation: `${appear} 350ms ease both`,
-  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
 });

@@ -1,5 +1,6 @@
 import { keyframes, style } from '@vanilla-extract/css';
 import { tokens } from '../../../theme/tokens.css.ts';
+import { forkMotionMs } from '../steps/timing.ts';
 
 const rename = keyframes({
   from: { opacity: 0, transform: 'translateY(5px)' },
@@ -32,6 +33,11 @@ const card = style({
   fontSize: 'clamp(1rem, 1.6vw, 1.3rem)',
   background: tokens.color.surface,
   transition: `transform ${movement}, opacity 400ms ease`,
+  selectors: {
+    [`${journey}[data-step="fork"][data-animate="true"] &`]: {
+      transitionDuration: `${forkMotionMs}ms, 400ms`,
+    },
+  },
   '@media': { '(prefers-reduced-motion: reduce)': { transition: 'none' } },
 });
 export const source = style([
@@ -81,9 +87,9 @@ export const fork = style([
         opacity: 0,
         pointerEvents: 'none',
       },
-      [`${journey}[data-step="fork"] &::after`]: {
+      [`${journey}[data-step="fork"][data-animate="true"] &::after`]: {
         opacity: 1,
-        animation: `${shine} 1200ms 150ms ease-out both`,
+        animation: `${shine} ${forkMotionMs}ms 150ms ease-out both`,
       },
     },
     '@media': {
@@ -112,7 +118,9 @@ export const connector = style({
   color: tokens.color.muted,
   opacity: 0,
   transition: 'opacity 400ms ease',
-  selectors: { '&[data-visible="true"]': { opacity: 1 } },
+  selectors: {
+    '&[data-visible="true"]': { opacity: 1 },
+  },
   '@media': {
     '(max-width: 500px)': { width: '36px' },
     '(prefers-reduced-motion: reduce)': { transition: 'none' },
@@ -153,6 +161,16 @@ export const agentBadge = style({
   color: tokens.color.text,
 });
 export const repositoryName = style({
-  animation: `${rename} 350ms ease both`,
-  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
+  selectors: {
+    [`${journey}[data-animate="true"] &`]: {
+      animation: `${rename} 350ms ease both`,
+    },
+  },
+  '@media': {
+    '(prefers-reduced-motion: reduce)': {
+      selectors: {
+        [`${journey}[data-animate="true"] &`]: { animation: 'none' },
+      },
+    },
+  },
 });
