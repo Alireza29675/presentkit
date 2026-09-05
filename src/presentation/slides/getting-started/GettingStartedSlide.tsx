@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { defineSlide, type SlideProps } from '../../stage/defineSlide.tsx';
+import { BoilerplateExplanation } from './components/BoilerplateExplanation.tsx';
 import { IntroHint } from './components/IntroHint.tsx';
 import { RepositoryJourney } from './components/RepositoryJourney.tsx';
 import { scenes, steps, type Step } from './steps/steps.ts';
@@ -24,9 +25,13 @@ function GettingStartedSlide({ stepId }: SlideProps<Step>) {
       </h1>
       <IntroHint visible={stepId === 'intro'} />
       <div className={styles.story} aria-hidden={!scene.showDiagram}>
-        <p className={styles.caption} key={stepId}>
-          {scene.caption}
-        </p>
+        {stepId === 'boilerplate' ? (
+          <BoilerplateExplanation />
+        ) : (
+          <p className={styles.caption} key={stepId}>
+            {scene.caption}
+          </p>
+        )}
         <RepositoryJourney scene={scene} stepId={stepId} />
       </div>
     </section>

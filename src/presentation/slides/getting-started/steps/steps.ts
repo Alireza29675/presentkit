@@ -1,4 +1,10 @@
-export const steps = ['intro', 'fork', 'rename', 'agent'] as const;
+export const steps = [
+  'intro',
+  'boilerplate',
+  'fork',
+  'rename',
+  'agent',
+] as const;
 export type Step = (typeof steps)[number];
 
 interface Scene {
@@ -6,6 +12,7 @@ interface Scene {
   readonly showDiagram: boolean;
   readonly showSource: boolean;
   readonly showAgent: boolean;
+  readonly showFork: boolean;
   readonly repositoryName: string;
 }
 
@@ -15,6 +22,15 @@ export const scenes = {
     showDiagram: false,
     showSource: false,
     showAgent: false,
+    showFork: false,
+    repositoryName: 'PresentKit',
+  },
+  boilerplate: {
+    caption: '',
+    showDiagram: true,
+    showSource: true,
+    showAgent: false,
+    showFork: false,
     repositoryName: 'PresentKit',
   },
   fork: {
@@ -22,6 +38,7 @@ export const scenes = {
     showDiagram: true,
     showSource: true,
     showAgent: false,
+    showFork: true,
     repositoryName: 'PresentKit',
   },
   rename: {
@@ -29,6 +46,7 @@ export const scenes = {
     showDiagram: true,
     showSource: true,
     showAgent: false,
+    showFork: true,
     repositoryName: 'My Next Talk',
   },
   agent: {
@@ -37,6 +55,13 @@ export const scenes = {
     showDiagram: true,
     showSource: false,
     showAgent: true,
+    showFork: true,
     repositoryName: 'My Next Talk',
   },
 } as const satisfies Record<Step, Scene>;
+
+export const boilerplateChunks = [
+  'PresentKit is a boilerplate',
+  'agents can use',
+  'to build polished presentations.',
+] as const;

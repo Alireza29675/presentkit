@@ -40,7 +40,12 @@ export const source = style([
     color: tokens.color.muted,
     opacity: 0,
     transform: 'translate(calc(-100% - 40px), -50%)',
-    selectors: { '&[data-visible="true"]': { opacity: 1 } },
+    selectors: {
+      '&[data-visible="true"]': { opacity: 1 },
+      [`${journey}[data-step="boilerplate"] &`]: {
+        transform: 'translate(-50%, -50%)',
+      },
+    },
     '@media': {
       '(max-width: 500px)': {
         transform: 'translate(calc(-100% - 24px), -50%)',

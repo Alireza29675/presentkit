@@ -59,7 +59,7 @@ export function RepositoryJourney({ scene, stepId }: RepositoryJourneyProps) {
       <svg
         className={styles.connector}
         viewBox="0 0 120 40"
-        data-visible={scene.showSource}
+        data-visible={scene.showSource && scene.showFork}
         aria-hidden="true"
       >
         <path
@@ -69,7 +69,11 @@ export function RepositoryJourney({ scene, stepId }: RepositoryJourneyProps) {
           strokeWidth="1.5"
         />
       </svg>
-      <div className={styles.fork} data-visible={scene.showDiagram}>
+      <div
+        className={styles.fork}
+        data-visible={scene.showFork}
+        aria-hidden={!scene.showFork}
+      >
         <RepositoryGlyph />
         <span className={styles.repositoryName} key={scene.repositoryName}>
           {scene.repositoryName}
