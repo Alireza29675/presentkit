@@ -1,13 +1,4 @@
-import { welcomeSlide } from './slides/welcome/WelcomeSlide.tsx';
-import { launchSlide } from './slides/launch/LaunchSlide.tsx';
-import { conceptsSlide } from './slides/concepts/ConceptsSlide.tsx';
-import { linksSlide } from './slides/links/LinksSlide.tsx';
-import { finishSlide } from './slides/finish/FinishSlide.tsx';
+import { gettingStartedSlide } from './slides/getting-started/GettingStartedSlide.tsx';
+import { foundationSlide } from './slides/foundation/FoundationSlide.tsx';
 
-export const deck = [
-  welcomeSlide,
-  launchSlide,
-  conceptsSlide,
-  linksSlide,
-  finishSlide,
-] as const;
+export const deck = [gettingStartedSlide, foundationSlide] as const;
