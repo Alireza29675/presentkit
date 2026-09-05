@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { defineSlide, type SlideProps } from '../../stage/defineSlide.tsx';
+import { IntroHint } from './components/IntroHint.tsx';
 import { RepositoryJourney } from './components/RepositoryJourney.tsx';
 import { scenes, steps, type Step } from './steps/steps.ts';
 import * as styles from './gettingStarted.css.ts';
@@ -21,6 +22,7 @@ function GettingStartedSlide({ stepId }: SlideProps<Step>) {
           built on top of <span className={styles.accent}>PresentKit</span>.
         </span>
       </h1>
+      <IntroHint visible={stepId === 'intro'} />
       <div className={styles.story} aria-hidden={!scene.showDiagram}>
         <p className={styles.caption} key={stepId}>
           {scene.caption}

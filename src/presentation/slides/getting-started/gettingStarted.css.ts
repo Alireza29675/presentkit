@@ -1,5 +1,6 @@
 import { keyframes, style } from '@vanilla-extract/css';
 import { tokens } from '../../theme/tokens.css.ts';
+import { introTiming } from './steps/timing.ts';
 
 const appear = keyframes({
   from: { opacity: 0, transform: 'translateY(6px)' },
@@ -45,7 +46,7 @@ export const titleEntrance = style({
   transformOrigin: '50% 70%',
   selectors: {
     '&[data-animate="true"]': {
-      animation: `${titleArrival} 2800ms 500ms cubic-bezier(0.16, 1, 0.3, 1) both`,
+      animation: `${titleArrival} ${introTiming.durationMs}ms ${introTiming.delayMs}ms cubic-bezier(0.16, 1, 0.3, 1) both`,
     },
   },
   '@media': {
