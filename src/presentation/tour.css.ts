@@ -13,7 +13,7 @@ export const root = style({
     [tokens.color.muted]: '#9ca6b8',
     [tokens.color.accent]: '#d1f67a',
     [tokens.color.border]: '#30394a',
-    [tokens.layout.controlsHeight]: '128px',
+    [tokens.layout.controlsHeight]: '104px',
   },
   color: tokens.color.text,
   background: tokens.color.canvas,
@@ -135,58 +135,4 @@ export const sourceLink = style({
   color: tokens.color.muted,
   textDecoration: 'none',
   selectors: { '&:hover': { color: tokens.color.text } },
-});
-export const footer = style({
-  minHeight: '64px',
-  padding: '0.6rem clamp(1.5rem, 3vw, 3rem)',
-  borderTop: `1px solid ${tokens.color.border}`,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: '1rem',
-  '@media': { '(max-width: 600px)': { flexWrap: 'wrap' } },
-});
-export const chapters = style({ display: 'flex', gap: '0.35rem' });
-export const chapter = style({
-  width: '24px',
-  height: '24px',
-  padding: 0,
-  border: 0,
-  background: 'transparent',
-  cursor: 'pointer',
-  display: 'grid',
-  placeItems: 'center',
-  selectors: {
-    '&::after': {
-      content: '',
-      width: '6px',
-      height: '6px',
-      borderRadius: '50%',
-      background: tokens.color.border,
-    },
-    '&[aria-current="step"]::after': {
-      width: '20px',
-      borderRadius: '4px',
-      background: tokens.color.accent,
-    },
-  },
-});
-export const progress = style({
-  fontSize: '0.7rem',
-  color: tokens.color.muted,
-  fontVariantNumeric: 'tabular-nums',
-});
-export const navButtons = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '0.5rem',
-});
-export const navButton = style([
-  secondaryButton,
-  { padding: '0.55rem 0.8rem', fontSize: '0.75rem' },
-]);
-export const hint = style({
-  fontSize: '0.7rem',
-  color: tokens.color.muted,
-  '@media': { '(max-width: 700px)': { display: 'none' } },
 });
