@@ -1,4 +1,4 @@
-# Presentation foundation
+# PresentKit
 
 This repository is a reusable React + TypeScript + Vite + vanilla-extract foundation for interactive presentations. A particular talk is content built on the foundation. Keep this guide generic: speaker names, event details, storylines, and temporary examples belong in presentation-specific content or notes.
 

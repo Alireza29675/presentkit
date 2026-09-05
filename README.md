@@ -1,4 +1,4 @@
-# Presentation Foundation
+# PresentKit
 
 An interactive introduction to making presentations with a coding agent. Follow a click-through journey from cloning the foundation to describing an idea, then explore scenes, evolving steps, interaction-driven navigation, and links that restore your place.
 
@@ -7,8 +7,8 @@ An interactive introduction to making presentations with a coding agent. Follow 
 Use Node.js 22.18 or newer.
 
 ```sh
-git clone https://github.com/Alireza29675/presentation-foundation.git
-cd presentation-foundation
+git clone https://github.com/Alireza29675/presentkit.git
+cd presentkit
 npm ci
 npm run dev
 ```

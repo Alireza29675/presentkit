@@ -23,11 +23,11 @@ export function Presentation() {
             <span className={styles.brandMark} aria-hidden="true">
               ✳
             </span>
-            Presentation Foundation
+            PresentKit
           </span>
           <a
             className={styles.sourceLink}
-            href="https://github.com/Alireza29675/presentation-foundation"
+            href="https://github.com/Alireza29675/presentkit"
             target="_blank"
             rel="noreferrer"
           >

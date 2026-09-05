@@ -50,7 +50,7 @@ function LaunchSlide({ stepId }: SlideProps<Step>) {
           <span className={styles.windowDots} aria-hidden="true">
             ● ● ●
           </span>
-          <span>presentation-foundation</span>
+          <span>presentkit</span>
           <span className={styles.status}>● local</span>
         </div>
         <div className={styles.workspaceBody} key={stepId}>
@@ -61,12 +61,12 @@ function LaunchSlide({ stepId }: SlideProps<Step>) {
                 <p>
                   <span className={styles.shell}>❯</span> git clone{' '}
                   <span className={styles.repository}>
-                    https://github.com/Alireza29675/presentation-foundation.git
+                    https://github.com/Alireza29675/presentkit.git
                   </span>
                 </p>
                 <p>
                   <span className={styles.shell}>❯</span> cd
-                  presentation-foundation
+                  presentkit
                 </p>
                 <p>
                   <span className={styles.shell}>❯</span> npm ci

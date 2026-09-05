@@ -23,7 +23,7 @@ function FinishSlide() {
       </p>
       <a
         className={tour.button}
-        href="https://github.com/Alireza29675/presentation-foundation"
+        href="https://github.com/Alireza29675/presentkit"
         target="_blank"
         rel="noreferrer"
       >
