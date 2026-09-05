@@ -5,7 +5,8 @@ This repository is a reusable React + TypeScript + Vite + vanilla-extract founda
 ## Working approach
 
 - Read this guide, the README, the deck, and the relevant slide before editing. Inspect Git status so existing experiments and user changes stay intact.
-- Build the requested slide, step, or foundation improvement in small, reviewable increments. Discuss substantive changes to authoring conventions before expanding the engine.
+- Create and refine slides and their steps one by one, working with the user on each increment. Only create a whole presentation at once when the user explicitly asks for it. Discuss substantive changes to authoring conventions before expanding the engine.
+- When starting a new presentation from a fresh clone, first ask whether the user wants to remove all bundled example content. If they agree, remove the entire example: slides, steps, example-only components, styles, assets, deck wiring, branding, header, navigation UI, and other example chrome. Preserve the reusable engine and leave a minimal runnable starting point. Do not ask again when the user has already answered; refining the bundled example is not a fresh-start cleanup request.
 - Keep the foundation useful for future presentations with different subjects, visual styles, layouts, and interactions. Add shared infrastructure when a concrete requirement demonstrates its value.
 - Treat reference decks as inspiration unless explicitly asked to reproduce them. Do not invent the rest of a talk ahead of the author's direction.
 - Temporary examples are working experiments. Keep their slides, demo styles, deck wiring, and related documentation out of commits unless explicitly authorized. Stage files deliberately; do not use blanket staging when experiments coexist with foundation changes.
