@@ -6,9 +6,7 @@ export function IntroHint({ visible }: { readonly visible: boolean }) {
       <p className={styles.question}>Do you want to know how it works?</p>
       <p className={styles.keyPrompt}>
         <span>Press</span>
-        <kbd className={styles.key}>
-          space <span className={styles.keySymbol} aria-hidden="true">␣</span>
-        </kbd>
+        <kbd className={styles.key}>space</kbd>
       </p>
     </div>
   );
