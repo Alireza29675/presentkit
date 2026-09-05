@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { defineSlide, type SlideProps } from '../../stage/defineSlide.tsx';
 import { RepositoryJourney } from './components/RepositoryJourney.tsx';
 import { scenes, steps, type Step } from './steps/steps.ts';
@@ -5,6 +6,8 @@ import * as styles from './gettingStarted.css.ts';
 
 function GettingStartedSlide({ stepId }: SlideProps<Step>) {
   const scene = scenes[stepId];
+  // Keep the entrance running across steps; direct links to later steps skip it.
+  const [animateEntrance] = useState(stepId === 'intro');
   return (
     <section
       className={styles.slide}
@@ -12,9 +15,11 @@ function GettingStartedSlide({ stepId }: SlideProps<Step>) {
       data-expanded={scene.showDiagram}
     >
       <h1 className={styles.title} id="getting-started-title">
-        This is a presentation
-        <br />
-        built on top of <span className={styles.accent}>PresentKit</span>.
+        <span className={styles.titleEntrance} data-animate={animateEntrance}>
+          This is a presentation
+          <br />
+          built on top of <span className={styles.accent}>PresentKit</span>.
+        </span>
       </h1>
       <div className={styles.story} aria-hidden={!scene.showDiagram}>
         <p className={styles.caption} key={stepId}>

@@ -28,6 +28,33 @@ export const title = style({
   selectors: { [`${slide}[data-expanded="true"] &`]: { top: '23%' } },
   '@media': { '(prefers-reduced-motion: reduce)': { transition: 'none' } },
 });
+const titleArrival = keyframes({
+  from: {
+    opacity: 0,
+    transform: 'perspective(1000px) translateY(28px) rotateX(14deg) rotateY(-5deg) scale(0.92)',
+  },
+  to: {
+    opacity: 1,
+    transform: 'perspective(1000px) translateY(0) rotateX(0deg) rotateY(0deg) scale(1)',
+  },
+});
+
+// Separate from the heading's position so advancing can move it up mid-entrance.
+export const titleEntrance = style({
+  display: 'block',
+  transformOrigin: '50% 70%',
+  selectors: {
+    '&[data-animate="true"]': {
+      animation: `${titleArrival} 2800ms 500ms cubic-bezier(0.16, 1, 0.3, 1) both`,
+    },
+  },
+  '@media': {
+    '(prefers-reduced-motion: reduce)': {
+      selectors: { '&[data-animate="true"]': { animation: 'none' } },
+    },
+  },
+});
+
 export const accent = style({ color: tokens.color.accent });
 export const story = style({
   position: 'absolute',
