@@ -109,7 +109,6 @@ export const header = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  borderBottom: `1px solid ${tokens.color.border}`,
   gap: '1rem',
 });
 export const brand = style({
