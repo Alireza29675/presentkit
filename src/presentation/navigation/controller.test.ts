@@ -204,3 +204,104 @@ test('step IDs matching object prototype names do not bypass slide policy', () =
     assert.equal(controller.getSnapshot().current.stepId, 'done');
   }
 });
+
+test('first visits and revisits follow successful navigation in either direction and through jumps', () => {
+  const controller = createPresentationController(deck);
+  const initial = controller.getSnapshot();
+  assert.equal(initial.isFirstVisit, true);
+  controller.controls.next();
+  const intro = controller.getSnapshot();
+  assert.equal(intro.isFirstVisit, true);
+  controller.controls.previous();
+  assert.equal(controller.getSnapshot().isFirstVisit, false);
+  controller.controls.next();
+  assert.equal(controller.getSnapshot().isFirstVisit, false);
+  controller.controls.goTo({ slideId: 'closing', stepId: 'start' });
+  assert.equal(controller.getSnapshot().isFirstVisit, true);
+  // A backward arrival can be a first visit: the jump skipped this step.
+  controller.controls.previous();
+  assert.equal(controller.getSnapshot().isFirstVisit, true);
+  controller.controls.goTo({ slideId: 'interaction', stepId: 'intro' });
+  assert.equal(controller.getSnapshot().isFirstVisit, false);
+  controller.controls.goTo({ slideId: 'closing', stepId: 'start' });
+  assert.equal(controller.getSnapshot().isFirstVisit, false);
+  // Previously published snapshots never change when a step is revisited.
+  assert.equal(initial.isFirstVisit, true);
+  assert.equal(intro.isFirstVisit, true);
+});
+
+test('initial cursor is visited first without marking earlier steps as visited', () => {
+  const controller = createPresentationController(deck, {
+    initialCursor: { slideId: 'interaction', stepId: 'slider' },
+  });
+  assert.deepEqual(controller.getSnapshot(), {
+    current: cursor('interaction', 'slider'),
+    previous: null,
+    isFirstVisit: true,
+  });
+  controller.controls.previous();
+  assert.equal(controller.getSnapshot().isFirstVisit, true);
+  controller.controls.next();
+  assert.equal(controller.getSnapshot().isFirstVisit, false);
+  controller.controls.goTo({ slideId: 'opening', stepId: 'start' });
+  assert.equal(controller.getSnapshot().isFirstVisit, true);
+});
+
+test('no-ops preserve visit metadata and snapshot identity without premarking future steps', () => {
+  const controller = createPresentationController(deck);
+  const initial = controller.getSnapshot();
+  controller.controls.previous();
+  controller.controls.goTo({ slideId: 'opening', stepId: 'start' });
+  assert.equal(controller.getSnapshot(), initial);
+  assert.equal(initial.isFirstVisit, true);
+  controller.controls.goTo({ slideId: 'interaction', stepId: 'slider' });
+  const slider = controller.getSnapshot();
+  const completion = controller.captureStepCompletion();
+  controller.presenter.next();
+  controller.controls.goTo({ slideId: 'interaction', stepId: 'slider' });
+  assert.equal(controller.getSnapshot(), slider);
+  assert.equal(slider.isFirstVisit, true);
+  completion();
+  assert.equal(controller.getSnapshot().isFirstVisit, true);
+  const finished = controller.getSnapshot();
+  completion();
+  assert.equal(controller.getSnapshot(), finished);
+  controller.controls.goTo({ slideId: 'closing', stepId: 'start' });
+  const closing = controller.getSnapshot();
+  controller.controls.next();
+  assert.equal(controller.getSnapshot(), closing);
+  assert.equal(closing.isFirstVisit, true);
+});
+
+test('visit metadata is synchronous for observers and isolated to each controller session', () => {
+  const controller = createPresentationController(deck);
+  const observed: boolean[] = [];
+  controller.subscribe(() => observed.push(controller.getSnapshot().isFirstVisit));
+  controller.controls.next();
+  controller.controls.previous();
+  controller.controls.next();
+  assert.deepEqual(observed, [true, false, false]);
+  const another = createPresentationController(deck);
+  assert.equal(another.getSnapshot().isFirstVisit, true);
+  another.controls.next();
+  assert.equal(another.getSnapshot().isFirstVisit, true);
+  assert.equal(controller.getSnapshot().isFirstVisit, false);
+});
+
+test('visit keys distinguish identical step names and IDs containing separators', () => {
+  const specialDeck = [
+    { id: 'a', steps: ['b/c', 'b:c', 'b\u0000c'] },
+    { id: 'a/b', steps: ['c'] },
+    { id: 'a:b', steps: ['c'] },
+    { id: 'a\u0000b', steps: ['c'] },
+  ] as const;
+  const controller = createPresentationController(specialDeck);
+  for (let index = 0; index < 6; index++) {
+    assert.equal(controller.getSnapshot().isFirstVisit, true);
+    controller.controls.next();
+  }
+  for (let index = 0; index < 5; index++) {
+    controller.controls.previous();
+    assert.equal(controller.getSnapshot().isFirstVisit, false);
+  }
+});

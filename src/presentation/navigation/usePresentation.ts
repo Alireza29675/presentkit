@@ -18,6 +18,7 @@ export function usePresentationController<Destination extends Cursor>(
 
   const presentation: Presentation<Destination> = {
     current: state.current,
+    isFirstVisit: state.isFirstVisit,
     previousCursor: state.previous,
     slideIndex: position.slideIndex,
     stepIndex: position.stepIndex,

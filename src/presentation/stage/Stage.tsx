@@ -19,6 +19,7 @@ export function Stage<const Deck extends readonly RenderableSlide[]>({ deck, pre
         stepId={presentation.current.stepId}
         stepIndex={presentation.stepIndex}
         direction={presentation.direction}
+        isFirstVisit={presentation.isFirstVisit}
         previousCursor={presentation.previousCursor}
         navigation={{
           next: presentation.next,

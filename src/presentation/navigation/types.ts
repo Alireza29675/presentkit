@@ -35,6 +35,13 @@ export interface NavigationState<Destination extends Cursor> {
   readonly previous: Destination | null;
 }
 
+/** Metadata captured once when entering a step, stable throughout that visit. */
+export interface PresentationSnapshot<
+  Destination extends Cursor,
+> extends NavigationState<Destination> {
+  readonly isFirstVisit: boolean;
+}
+
 export interface NavigationPosition extends Cursor {
   readonly slideIndex: number;
   readonly stepIndex: number;
@@ -58,6 +65,7 @@ export interface Presentation<
 > extends NavigationControls<Destination> {
   readonly current: Destination;
   readonly previousCursor: Destination | null;
+  readonly isFirstVisit: boolean;
   readonly slideIndex: number;
   readonly stepIndex: number;
   readonly direction: Direction;

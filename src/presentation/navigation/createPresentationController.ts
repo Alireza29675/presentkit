@@ -5,7 +5,7 @@ import type {
   NavigationAction,
   NavigationControls,
   NavigationPosition,
-  NavigationState,
+  PresentationSnapshot,
   SlideDefinition,
 } from './types.ts';
 
@@ -21,16 +21,23 @@ export function createPresentationController<
     options.initialCursor ?? navigation.initialState.current;
   if (!navigation.getPosition(initialCursor))
     throw new Error('Invalid initial presentation cursor.');
-  let state: NavigationState<CursorFor<Deck>> = {
+  // JSON encodes both IDs unambiguously, even when IDs contain separators.
+  const visitKey = (cursor: Cursor) =>
+    JSON.stringify([cursor.slideId, cursor.stepId]);
+  const visitedSteps = new Set([visitKey(initialCursor)]);
+  let state: PresentationSnapshot<CursorFor<Deck>> = {
     current: { ...initialCursor },
     previous: null,
+    isFirstVisit: true,
   };
   const listeners = new Set<() => void>();
 
   function dispatch(action: NavigationAction<CursorFor<Deck>>) {
     const nextState = navigation.reducer(state, action);
     if (nextState === state) return;
-    state = nextState;
+    const key = visitKey(nextState.current);
+    state = { ...nextState, isFirstVisit: !visitedSteps.has(key) };
+    visitedSteps.add(key);
     for (const listener of [...listeners]) listener();
   }
 
@@ -65,7 +72,7 @@ export function createPresentationController<
 }
 
 export interface PresentationController<Destination extends Cursor> {
-  readonly getSnapshot: () => NavigationState<Destination>;
+  readonly getSnapshot: () => PresentationSnapshot<Destination>;
   readonly subscribe: (listener: () => void) => () => void;
   readonly getPosition: (cursor: Cursor | null) => NavigationPosition | null;
   readonly canAdvanceFromControls: (cursor: Cursor) => boolean;

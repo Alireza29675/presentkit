@@ -92,7 +92,7 @@ test('a hydrated controller starts at its URL position without a previous cursor
   const initialCursor = resolveHash(deck, '#slide=interaction&step=reflect');
   const controller = createPresentationController(deck, { initialCursor });
   assert.deepEqual(controller.getSnapshot(), {
-    current: { slideId: 'interaction', stepId: 'reflect' }, previous: null,
+    current: { slideId: 'interaction', stepId: 'reflect' }, previous: null, isFirstVisit: true,
   });
   const initial = controller.getSnapshot();
   const host = createHost('#slide=interaction&step=reflect');
@@ -100,7 +100,7 @@ test('a hydrated controller starts at its URL position without a previous cursor
   assert.equal(controller.getSnapshot(), initial);
   assert.equal(host.replacements.length, 0);
   assert.deepEqual(createPresentationController(deck).getSnapshot(), {
-    current: { slideId: 'opening', stepId: 'start' }, previous: null,
+    current: { slideId: 'opening', stepId: 'start' }, previous: null, isFirstVisit: true,
   });
   disconnect();
 });
@@ -150,6 +150,7 @@ test('location events restore explicit destinations across API-only steps and re
   const host = createHost('#slide=interaction&step=explore');
   const disconnect = connectPresentationUrl(controller, deck, host);
   const explored = controller.getSnapshot();
+  assert.equal(explored.isFirstVisit, true);
   controller.presenter.next();
   assert.equal(controller.getSnapshot(), explored);
   const completeOldVisit = controller.captureStepCompletion();
@@ -159,6 +160,7 @@ test('location events restore explicit destinations across API-only steps and re
   });
   host.navigate('#slide=interaction&step=explore', 'popstate');
   const revisited = controller.getSnapshot();
+  assert.equal(revisited.isFirstVisit, false);
   assert.deepEqual(revisited.current, {
     slideId: 'interaction', stepId: 'explore',
   });

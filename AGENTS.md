@@ -43,6 +43,7 @@ Use names that describe presentation responsibilities. Keep files cohesive and i
 - Set `advance: 'api-only'` for a whole slide or typed `stepAdvance` overrides in `steps/` when forward progression belongs to an interaction. Policy controls leaving the current step; backward navigation and explicit API jumps remain available.
 - Route keyboard/ordinary Next controls through the controller's `presenter` commands and use `canAdvanceFromControls` for disabled UI. Do not bypass policy by wiring an ordinary Next button to the programmatic API.
 - Nested interactions use `usePresentationApi()` under `PresentationApiProvider`. Use its visit-scoped `completeStep` callback for completion events and asynchronous work; capture it when work starts. Use unguarded `next` only for intentional current-position commands. See `navigation/README.md` for external API and reliability semantics.
+- Use `SlideProps.isFirstVisit` (also exposed by `usePresentationApi`) for one-time reveals and first-visit prompts. `direction` reports how the cursor arrived; skip text entrance animations on backward navigation, even when jumping backward to an unseen step. Visit history belongs to the controller, survives slide remounts, and resets with a new controller or page refresh. No-op navigation does not create a new visit.
 - Local interaction state survives step changes. Leaving and revisiting a slide resets it because the Stage keys by slide ID. Model persistence explicitly when the presentation requires it.
 
 ## TypeScript and clean code

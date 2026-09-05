@@ -11,6 +11,7 @@ export interface SlideProps<Step extends string = string> {
   readonly stepId: Step;
   readonly stepIndex: number;
   readonly direction: Direction;
+  readonly isFirstVisit: boolean;
   readonly previousCursor: Cursor | null;
   readonly navigation: Pick<
     NavigationControls,

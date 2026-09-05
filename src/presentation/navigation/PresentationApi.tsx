@@ -5,10 +5,10 @@ import {
   useSyncExternalStore,
 } from 'react';
 import type { ReactNode } from 'react';
-import type { Cursor, NavigationState } from './types.ts';
+import type { Cursor, PresentationSnapshot } from './types.ts';
 
 interface InteractionController {
-  readonly getSnapshot: () => NavigationState<Cursor>;
+  readonly getSnapshot: () => PresentationSnapshot<Cursor>;
   readonly subscribe: (listener: () => void) => () => void;
   readonly controls: {
     readonly next: () => void;
@@ -48,5 +48,10 @@ export function usePresentationApi() {
     [controller, snapshot],
   );
 
-  return { ...controller.controls, current: snapshot.current, completeStep };
+  return {
+    ...controller.controls,
+    current: snapshot.current,
+    isFirstVisit: snapshot.isFirstVisit,
+    completeStep,
+  };
 }
