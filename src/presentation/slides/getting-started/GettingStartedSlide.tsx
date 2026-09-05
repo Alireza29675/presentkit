@@ -52,7 +52,7 @@ function GettingStartedSlide({
           key={stepId}
           chunks={scene.caption}
           animate={animate}
-          beatMs={timing.textBeatMs}
+          delaysMs={timing.captionDelaysMs}
         />
         <RepositoryJourney scene={scene} stepId={stepId} animate={animate} />
       </div>

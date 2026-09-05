@@ -3,10 +3,10 @@ import * as styles from './stepCaption.css.ts';
 interface StepCaptionProps {
   readonly chunks: readonly string[];
   readonly animate: boolean;
-  readonly beatMs: number;
+  readonly delaysMs: readonly number[];
 }
 
-export function StepCaption({ chunks, animate, beatMs }: StepCaptionProps) {
+export function StepCaption({ chunks, animate, delaysMs }: StepCaptionProps) {
   return (
     <p className={styles.caption}>
       {chunks.map((chunk, index) => (
@@ -14,7 +14,7 @@ export function StepCaption({ chunks, animate, beatMs }: StepCaptionProps) {
           key={chunk}
           className={styles.chunk}
           data-animate={animate}
-          style={{ animationDelay: `${(index + 1) * beatMs}ms` }}
+          style={{ animationDelay: `${delaysMs[index] ?? 0}ms` }}
         >
           {chunk}
           {index < chunks.length - 1 ? '\u00a0' : ''}

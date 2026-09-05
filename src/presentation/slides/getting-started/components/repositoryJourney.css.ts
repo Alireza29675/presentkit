@@ -1,6 +1,6 @@
 import { keyframes, style } from '@vanilla-extract/css';
 import { tokens } from '../../../theme/tokens.css.ts';
-import { forkMotionMs } from '../steps/timing.ts';
+import { forkMotionMs, forkShineDelayMs } from '../steps/timing.ts';
 
 const rename = keyframes({
   from: { opacity: 0, transform: 'translateY(5px)' },
@@ -89,7 +89,7 @@ export const fork = style([
       },
       [`${journey}[data-step="fork"][data-animate="true"] &::after`]: {
         opacity: 1,
-        animation: `${shine} ${forkMotionMs}ms 150ms ease-out both`,
+        animation: `${shine} ${forkMotionMs}ms ${forkShineDelayMs}ms ease-out both`,
       },
     },
     '@media': {
